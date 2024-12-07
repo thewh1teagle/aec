@@ -9,7 +9,7 @@ import soundfile as sf
 import numpy as np
 import sys
 import pyaudio
-from libaec.binds.aec import Aec
+from pyaec import Aec
 import time
 
 # Parameters
