@@ -1,0 +1,23 @@
+name: Publish pypi
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Build
+        run: uv build
+        working-directory: pyaec
+
+      - name: Publish
+        run: uv publish
+        working-directory: pyaec
+        env:
+          UV_PUBLISH_TOKEN: ${{ secrets.UV_PUBLISH_TOKEN }}
