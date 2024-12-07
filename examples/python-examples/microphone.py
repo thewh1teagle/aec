@@ -1,5 +1,5 @@
 """
-pip install PyAudio soundfile numpy
+pip install pyaec PyAudio soundfile numpy
 wget https://github.com/thewh1teagle/aec-rs/releases/download/audio-files/song.wav
 python microphone.py song.wav off.wav off
 python microphone.py song.wav on.wav on
