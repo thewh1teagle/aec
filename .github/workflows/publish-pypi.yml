@@ -11,15 +11,19 @@ jobs:
         include:
           - platform: "macos-latest" # for Arm-based Macs (M1 and above)
             archive: "libaec-osx-aarch64.tar.gz"
+            wheel-tag: "py3-none-macosx_11_0_arm64"
 
           - platform: "macos-latest" # for Intel-based Macs
             archive: "libaec-osx-x86-64.tar.gz"
+            wheel-tag: "py3-none-macosx_10_12_x86_64"
 
           - platform: "ubuntu-22.04" # Ubuntu 22.04 x86_64
             archive: "libaec-linux-x86-64.tar.gz"
+            wheel-tag: "py3-none-linux_x86_64"
 
           - platform: "windows-latest" # Windows x86_64
             archive: "libaec-win-x86-64.zip"
+            wheel-tag: "py3-none-win_amd64"
 
     runs-on: ${{ matrix.platform }}
 
@@ -54,4 +58,5 @@ jobs:
         working-directory: pyaec
         env:
           UV_PUBLISH_TOKEN: ${{ secrets.UV_PUBLISH_TOKEN }}
+          WHEEL_TAG: ${{ matrix.wheel-tag }}
         shell: bash
