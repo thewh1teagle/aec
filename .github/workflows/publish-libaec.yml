@@ -5,6 +5,7 @@ on:
 
 jobs:
   build:
+    name: ${{ matrix.target }}
     strategy:
       fail-fast: false
       matrix:
