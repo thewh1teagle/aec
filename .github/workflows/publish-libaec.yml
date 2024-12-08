@@ -89,6 +89,10 @@ jobs:
           local-cache: true
         if: matrix.target == 'aarch64-linux-android'
 
+      - name: Setup emsdk
+        uses: mymindstorm/setup-emsdk@v14
+        if: contains(matrix.target, 'wasm')
+
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
