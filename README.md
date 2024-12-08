@@ -13,7 +13,7 @@ Acoustic echo cancellation in Rust based on [speexdsp](https://github.com/xiph/s
 - 🦀 Rust and 🐍 Python support
 - 🔗 Easy integration with C/C++ (or any other language) via C API
 - 📦 Precompiled library and C header files available in the [releases](https://github.com/thewh1teagle/aec-rs/releases/latest)
-- 🖥️ Support for Windows (x86/arm64), Linux (x86/arm64), macOS (x86/arm64), Android (arm64), IOS (arm64), and WASM!
+- 🖥️ Support for Windows (x86/arm64), Linux (x86/arm64), macOS (x86/arm64), Android (arm64), IOS (arm64), WASM, and Riscv64!
 - 🖥️ Run on Raspberry PI as well
 
 # Install
