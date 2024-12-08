@@ -58,12 +58,13 @@ cargo build --release --target aarch64-apple-ios
 
 ## Build for wasm
 
+Use [wasm-pack](https://rustwasm.github.io/docs/wasm-pack) with [emscripten.org](https://emscripten.org)
+
 ```console
-rustup target add wasm32-unknown-unknown
-rustup target add --toolchain nightly wasm32-unknown-unknown
-cargo build --target wasm32-unknown-unknown --features wasm
-export RUSTFLAGS="--cfg=web_sys_unstable_apis --Z wasm_c_abi=spec"
-cargo +nightly build --target=wasm32-unknown-unknown --release --features wasm
+brew install emscripten
+rustup target add wasm32-unknown-emscripten
+cargo build --release --target wasm32-unknown-emscripten
+wasm-pack build
 ```
 
 ## Build pyaec (Python)

@@ -31,6 +31,7 @@ pub struct Aec {
     preprocess_state: Option<*mut aec_rs_sys::SpeexPreprocessState>,
 }
 
+#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 impl Aec {
     #[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
     pub fn new(config: &AecConfig) -> Self {
