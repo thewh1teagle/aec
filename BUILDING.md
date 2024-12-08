@@ -64,7 +64,7 @@ Use [wasm-pack](https://rustwasm.github.io/docs/wasm-pack) with [emscripten.org]
 brew install emscripten
 rustup target add wasm32-unknown-emscripten
 cargo build --release --target wasm32-unknown-emscripten
-wasm-pack build
+CC=emcc AR=emar wasm-pack build
 ```
 
 ## Build pyaec (Python)
