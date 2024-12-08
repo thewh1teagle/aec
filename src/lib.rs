@@ -1,7 +1,11 @@
+#[cfg(target_arch = "wasm32")]
+use wasm_bindgen::prelude::*;
+
 use std::os::raw::c_void;
 /// See https://www.speex.org/docs/api/speex-api-reference/speex__echo_8h.html
 
 #[derive(Debug, Clone)]
+#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 pub struct AecConfig {
     pub frame_size: usize,
     pub filter_length: i32,
@@ -21,12 +25,14 @@ impl Default for AecConfig {
     }
 }
 
+#[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
 pub struct Aec {
     echo_state: *mut aec_rs_sys::SpeexEchoState,
     preprocess_state: Option<*mut aec_rs_sys::SpeexPreprocessState>,
 }
 
 impl Aec {
+    #[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
     pub fn new(config: &AecConfig) -> Self {
         let echo_state = unsafe {
             aec_rs_sys::speex_echo_state_init(config.frame_size as i32, config.filter_length)
@@ -54,6 +60,7 @@ impl Aec {
         }
     }
 
+    #[cfg_attr(target_arch = "wasm32", wasm_bindgen)]
     pub fn cancel_echo(&self, rec_buffer: &[i16], echo_buffer: &[i16], out_buffer: &mut [i16]) {
         unsafe {
             aec_rs_sys::speex_echo_cancellation(
