@@ -19,7 +19,7 @@ jobs:
 
           - platform: "ubuntu-22.04" # Ubuntu 22.04 x86_64
             archive: "libaec-linux-x86-64.tar.gz"
-            wheel-tag: "py3-none-linux_x86_64"
+            wheel-tag: "py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64"
 
           - platform: "windows-latest" # Windows x86_64
             archive: "libaec-win-x86-64.zip"
