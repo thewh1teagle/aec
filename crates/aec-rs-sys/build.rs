@@ -57,6 +57,15 @@ fn main() {
 
     let mut config = Config::new(&lib_dst);
 
+    // Must set when compile for Android
+    // Variables comes from cargo-ndk
+    if let Ok(abi) = env::var("CARGO_NDK_ANDROID_TARGET") {
+        config.define("ANDROID_ABI", abi);
+    }
+    if let Ok(platform) = env::var("ANDROID_PLATFORM") {
+        config.define("ANDROID_PLATFORM", platform);
+    }
+
     let build_dir = config.profile(&profile).build();
     println!(
         "cargo:rustc-link-search={}",
