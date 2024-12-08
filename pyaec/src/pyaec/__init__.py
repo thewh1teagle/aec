@@ -6,11 +6,9 @@ import os
 
 def load_library():
     try:
-        lib_name = "libaec" + (
-            ".dll"
-            if platform.system() == "Windows"
-            else ".so" if platform.system() == "Linux" else ".dylib"
-        )
+        ext = ".dll" if platform.system() == "Windows" else ".so" if platform.system() == "Linux" else ".dylib"
+        lib_name = "aec" + ext if platform.system() == "Windows" else 'libaec' + ext
+
         # Same dir as this file
         lib_path = os.path.join(os.path.dirname(__file__), lib_name)
 

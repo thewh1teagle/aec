@@ -5,6 +5,7 @@ on:
 
 jobs:
   build:
+    name: ${{ matrix.target }}
     strategy:
       fail-fast: false
       matrix:
@@ -14,6 +15,12 @@ jobs:
             build-dir: "libaec-osx-aarch64"
             archive: "tar"
             target: "aarch64-apple-darwin"
+
+          - platform: "macos-latest" # for Apple IOS
+            args: "--target aarch64-apple-ios"
+            build-dir: "libaec-ios-aarch64"
+            archive: "tar"
+            target: "aarch64-apple-ios"
 
           - platform: "macos-latest" # for Intel-based Macs
             args: "--target x86_64-apple-darwin"

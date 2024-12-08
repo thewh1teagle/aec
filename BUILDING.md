@@ -30,3 +30,51 @@ export NDK_HOME="$HOME/Library/Android/sdk/ndk/$(ls -1 $HOME/Library/Android/sdk
 export CMAKE_TOOLCHAIN_FILE="$NDK_HOME/build/cmake/android.toolchain.cmake"
 cargo ndk -t arm64-v8a build --release -p libaec
 ```
+
+## Build for IOS
+
+Install Xcode command line tools
+
+```console
+xcode-select --install
+```
+
+Install toolchain
+
+```console
+# IOS
+rustup target add aarch64-apple-ios
+# Intel chip emulator
+rustup target add x86_64-apple-ios
+# Apple chip emulator
+rustup target add aarch64-apple-ios-sim
+```
+
+Build
+
+```console
+cargo build --release --target aarch64-apple-ios
+```
+
+## Building pyaec (Python)
+
+Use [uv](https://astral.sh/blog/uv)
+
+```console
+cargo build -p libaec --release
+cp -rf ../target/release/libaec.dylib src/pyaec/
+WHEEL_TAG="py3-none-macosx_11_0_arm64" uv build
+```
+
+Publish
+
+```console
+export UV_PUBLISH_TOKEN="..."
+uv publish
+```
+
+Installing once published
+
+```console
+uv run --with pyaec --refresh-package pyaec --no-project -- python -c "import pyaec"
+```

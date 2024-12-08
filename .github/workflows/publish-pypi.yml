@@ -5,6 +5,7 @@ on:
 
 jobs:
   publish:
+    name: ${{ matrix.archive }}
     strategy:
       fail-fast: false
       matrix:
