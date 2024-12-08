@@ -13,7 +13,9 @@ homepage = "https://github.com/thewh1teagle/aec-rs"
 
 [dependencies]
 aec-rs-sys = { path = "crates/aec-rs-sys", version = "1.0.0" }
-wasm-bindgen = { version = "0.2.99", optional = true }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wasm-bindgen = { version = "0.2.99" }
 
 [lib]
 # For wasm
@@ -21,6 +23,3 @@ crate-type = ["cdylib", "rlib"]
 
 [dev-dependencies]
 hound = { version = "3.5.1" }
-
-[features]
-wasm = ["dep:wasm-bindgen"]

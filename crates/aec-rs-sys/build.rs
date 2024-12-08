@@ -41,8 +41,15 @@ fn main() {
     if target.contains("android") {
         clang_target = "armv8-linux-androideabi".to_string();
     }
-    let bindings = bindgen::Builder::default()
-        .header("wrapper.h")
+
+    let mut bindings = bindgen::Builder::default().header("wrapper.h");
+
+    if target.contains("wasm") {
+        // See https://github.com/rust-lang/rust-bindgen/issues/2624#issuecomment-1708117271
+        bindings = bindings.clang_arg("-fvisibility=default");
+    }
+
+    let bindings = bindings
         .clang_arg(format!("-I{}", lib_dst.display()))
         // Explicitly set target in case we are cross-compiling.
         // See https://github.com/rust-lang/rust-bindgen/issues/1780 for context.
