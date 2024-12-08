@@ -29,6 +29,10 @@ jobs:
             archive: "libaec-win-x86-64.zip"
             wheel-tag: "py3-none-win_amd64"
 
+          - platform: "windows-latest" # Windows aarch64
+            archive: "libaec-win-aarch64.zip"
+            wheel-tag: "py3-none-win_arm64"
+
     runs-on: ${{ matrix.platform }}
 
     steps:
