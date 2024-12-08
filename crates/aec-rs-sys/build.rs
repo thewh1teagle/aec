@@ -53,7 +53,7 @@ fn main() {
         .clang_arg(format!("-I{}", lib_dst.display()))
         // Explicitly set target in case we are cross-compiling.
         // See https://github.com/rust-lang/rust-bindgen/issues/1780 for context.
-        .clang_arg(format!("--target={}", clang_target))
+        // .clang_arg(format!("--target={}", clang_target))
         .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
         .generate()
         .expect("Failed to generate bindings");
