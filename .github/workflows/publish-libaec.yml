@@ -10,31 +10,37 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - platform: "macos-latest" # for Arm-based Macs (M1 and above)
+          - platform: "macos-latest" # Wasm32-emscripten
+            args: "--target wasm32-unknown-emscripten"
+            build-dir: "libaec-wasm32-unknown-emscripten"
+            archive: "tar"
+            target: "wasm32-unknown-emscripten"
+
+          - platform: "macos-latest" # macOS arm64
             args: "--target aarch64-apple-darwin"
             build-dir: "libaec-osx-aarch64"
             archive: "tar"
             target: "aarch64-apple-darwin"
 
-          - platform: "macos-latest" # for Apple IOS
+          - platform: "macos-latest" # IOS
             args: "--target aarch64-apple-ios"
             build-dir: "libaec-ios-aarch64"
             archive: "tar"
             target: "aarch64-apple-ios"
 
-          - platform: "macos-latest" # for Intel-based Macs
+          - platform: "macos-latest" # macOS x86-64
             args: "--target x86_64-apple-darwin"
             build-dir: "libaec-osx-x86-64"
             archive: "tar"
             target: "x86_64-apple-darwin"
 
-          - platform: "ubuntu-22.04" # Linux 22.04 x86_64
+          - platform: "ubuntu-22.04" # Linux x86_64
             args: ""
             build-dir: "libaec-linux-x86-64"
             archive: "tar"
             target: "x86_64-unknown-linux-gnu"
 
-          - platform: "macos-latest" # Linux Android arm64
+          - platform: "macos-latest" # Linux arm64
             args: ""
             build-dir: "libaec-android-aarch64"
             archive: "tar"
@@ -47,13 +53,13 @@ jobs:
             archive: "zip"
             target: "x86_64-pc-windows-msvc"
 
-          - platform: "windows-latest" # Windows ARM (aarch64)
+          - platform: "windows-latest" # Windows arm64
             args: "--target aarch64-pc-windows-msvc"
             build-dir: "libaec-win-aarch64"
             archive: "zip"
             target: "aarch64-pc-windows-msvc"
 
-          - platform: "ubuntu-22.04" # Raspberry Pi 4 (64-bit ARM)
+          - platform: "ubuntu-22.04" # Linux arm64
             args: "--target aarch64-unknown-linux-gnu"
             build-dir: "libaec-linux-aarch64"
             archive: "tar"
