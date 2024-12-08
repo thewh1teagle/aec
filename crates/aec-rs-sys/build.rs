@@ -29,6 +29,7 @@ fn main() {
     let lib_src = Path::new(&manifest_dir).join("speexdsp");
     let lib_dst = out_dir.join("speexdsp");
     let profile = env::var("SPEEXDSP_LIB_PROFILE").unwrap_or("Release".to_string());
+    let target = env::var("TARGET").unwrap();
 
     println!("cargo:rerun-if-changed={}", lib_src.display());
 
@@ -36,9 +37,16 @@ fn main() {
         copy_folder(&lib_src, &lib_dst);
     }
 
+    let mut clang_target = target.clone();
+    if target.contains("android") {
+        clang_target = "armv8-linux-androideabi".to_string();
+    }
     let bindings = bindgen::Builder::default()
         .header("wrapper.h")
         .clang_arg(format!("-I{}", lib_dst.display()))
+        // Explicitly set target in case we are cross-compiling.
+        // See https://github.com/rust-lang/rust-bindgen/issues/1780 for context.
+        .clang_arg(format!("--target={}", clang_target))
         .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
         .generate()
         .expect("Failed to generate bindings");
