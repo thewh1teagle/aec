@@ -29,6 +29,7 @@ fn main() {
     let lib_src = Path::new(&manifest_dir).join("speexdsp");
     let lib_dst = out_dir.join("speexdsp");
     let profile = env::var("SPEEXDSP_LIB_PROFILE").unwrap_or("Release".to_string());
+    let target = env::var("TARGET").unwrap();
 
     println!("cargo:rerun-if-changed={}", lib_src.display());
 
@@ -36,7 +37,10 @@ fn main() {
         copy_folder(&lib_src, &lib_dst);
     }
 
-    let clang_target = env::var("TARGET").unwrap();
+    let mut clang_target = target.clone();
+    if target.contains("android") {
+        clang_target = "armv8-linux-androideabi".to_string();
+    }
     let bindings = bindgen::Builder::default()
         .header("wrapper.h")
         .clang_arg(format!("-I{}", lib_dst.display()))
@@ -52,6 +56,15 @@ fn main() {
         .expect("Failed to write bindings");
 
     let mut config = Config::new(&lib_dst);
+
+    // Must set when compile for Android
+    // Variables comes from cargo-ndk
+    if let Ok(abi) = env::var("CARGO_NDK_ANDROID_TARGET") {
+        config.define("ANDROID_ABI", abi);
+    }
+    if let Ok(platform) = env::var("ANDROID_PLATFORM") {
+        config.define("ANDROID_PLATFORM", platform);
+    }
 
     let build_dir = config.profile(&profile).build();
     println!(

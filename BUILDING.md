@@ -19,6 +19,18 @@ cd ../../
 cargo publish
 ```
 
+## Build for Android
+
+You must install NDK from Android Studio settings.
+
+```console
+rustup target add aarch64-linux-android
+cargo install cargo-ndk
+export NDK_HOME="$HOME/Library/Android/sdk/ndk/$(ls -1 $HOME/Library/Android/sdk/ndk | sort | tail -n 1)"
+export CMAKE_TOOLCHAIN_FILE="$NDK_HOME/build/cmake/android.toolchain.cmake"
+cargo ndk -t arm64-v8a build --release -p libaec
+```
+
 ## Build for IOS
 
 Install Xcode command line tools
@@ -52,4 +64,27 @@ rustup target add --toolchain nightly wasm32-unknown-unknown
 cargo build --target wasm32-unknown-unknown --features wasm
 export RUSTFLAGS="--cfg=web_sys_unstable_apis --Z wasm_c_abi=spec"
 cargo +nightly build --target=wasm32-unknown-unknown --release --features wasm
+```
+
+## Build pyaec (Python)
+
+Use [uv](https://astral.sh/blog/uv)
+
+```console
+cargo build -p libaec --release
+cp -rf ../target/release/libaec.dylib src/pyaec/
+WHEEL_TAG="py3-none-macosx_11_0_arm64" uv build
+```
+
+Publish
+
+```console
+export UV_PUBLISH_TOKEN="..."
+uv publish
+```
+
+Installing once published
+
+```console
+uv run --with pyaec --refresh-package pyaec --no-project -- python -c "import pyaec"
 ```

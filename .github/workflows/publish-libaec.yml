@@ -28,11 +28,18 @@ jobs:
             archive: "tar"
             target: "x86_64-apple-darwin"
 
-          - platform: "ubuntu-22.04" # Ubuntu 22.04 x86_64
+          - platform: "ubuntu-22.04" # Linux 22.04 x86_64
             args: ""
             build-dir: "libaec-linux-x86-64"
             archive: "tar"
             target: "x86_64-unknown-linux-gnu"
+
+          - platform: "macos-latest" # Linux Android arm64
+            args: ""
+            build-dir: "libaec-android-aarch64"
+            archive: "tar"
+            target: "aarch64-linux-android"
+            android-abi: "arm64-v8a"
 
           - platform: "windows-latest" # Windows x86_64
             args: "--target x86_64-pc-windows-msvc"
@@ -68,6 +75,14 @@ jobs:
           echo "CXX=aarch64-linux-gnu-g++" >> $GITHUB_ENV
         if: matrix.target == 'aarch64-unknown-linux-gnu'
 
+      - name: Setup Android NDK
+        uses: nttld/setup-ndk@v1
+        id: setup-ndk
+        with:
+          ndk-version: r25b
+          local-cache: true
+        if: matrix.target == 'aarch64-linux-android'
+
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -76,11 +91,20 @@ jobs:
       - name: Rust cache
         uses: swatinem/rust-cache@v2
 
+      - name: Setup Cargo NDK
+        run: cargo install cargo-ndk
+        if: matrix.target == 'aarch64-linux-android'
+
       - name: Set up build directory
         run: mkdir -p ${{ matrix.build-dir }}
 
       - name: Build libaec
         run: cargo build -p libaec --release ${{ matrix.args }}
+        if: matrix.target != 'aarch64-linux-android'
+
+      - name: Build libaec (Android)
+        run: cargo ndk -t ${{ matrix.android-abi }} build --release -p libaec ${{ matrix.args }}
+        if: matrix.target == 'aarch64-linux-android'
 
       - name: Copy files
         run: |

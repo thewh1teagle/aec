@@ -1,6 +1,6 @@
 [project]
 name = "pyaec"
-version = "1.0.0"
+version = "1.0.1"
 description = "Acoustic echo cancellation"
 readme = "README.md"
 authors = [
